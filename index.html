@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pocket3 小小Vlog训练营</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">P3</span>
+        <div>
+          <p class="eyebrow">家长陪同 · 本地保存 · 不上传视频</p>
+          <h1>Pocket3 小小Vlog训练营</h1>
+        </div>
+      </div>
+      <button id="menuButton" class="icon-button" type="button" aria-label="打开导航">☰</button>
+    </header>
+
+    <nav id="tabs" class="tabs" aria-label="网站导航">
+      <button class="tab active" data-view="home">首页</button>
+      <button class="tab" data-view="today">今日任务</button>
+      <button class="tab" data-view="calendar">30天课程</button>
+      <button class="tab" data-view="basics">参数与构图</button>
+      <button class="tab" data-view="thinking">Vlog思维</button>
+      <button class="tab" data-view="faq">常见问题</button>
+      <button class="tab" data-view="generator">任务生成器</button>
+      <button class="tab" data-view="storyboard">分镜模板</button>
+      <button class="tab" data-view="parentReview">家长复盘</button>
+      <button class="tab" data-view="safety">安全隐私</button>
+      <button class="tab" data-view="sources">资料来源</button>
+    </nav>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="pill">每天 10-20 分钟</span>
+            <h2>每天完成一个有参数、有构图要求的实拍练习。</h2>
+            <p>课程默认孩子已经会基础操作，重点练参数选择、场景判断、构图比例、人像位置、声音和复盘。孩子不需要登录，也不能上传个人视频、家庭视频或位置信息。</p>
+            <div class="button-row">
+              <button id="continueButton" class="primary-button" type="button">继续学习</button>
+              <button class="secondary-button" data-jump="sources" type="button">查看资料整理</button>
+            </div>
+          </div>
+          <img src="assets/vlog-camp-hero.png" alt="Pocket3 小小Vlog训练营插图" />
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="card">
+            <div class="card-title-row">
+              <h3>今日任务</h3>
+              <span id="todayBadge" class="badge">Day 1</span>
+            </div>
+            <h4 id="todayTitle"></h4>
+            <p id="todayGoal"></p>
+            <button id="openTodayButton" class="secondary-button" type="button">打开今日课程</button>
+          </article>
+
+          <article class="card">
+            <h3>已完成天数</h3>
+            <div class="big-number"><span id="completedCount">0</span><span>/30</span></div>
+            <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+            <p id="progressText"></p>
+          </article>
+
+          <article class="card">
+            <h3>本周目标</h3>
+            <p id="weekGoal"></p>
+            <div id="weekBadges" class="badge-row"></div>
+          </article>
+
+          <article class="card warning-card">
+            <h3>家长提示</h3>
+            <p>拍摄前检查地点、他人肖像、门牌、学校、快递单、车牌和定位信息。任何公开发布都必须先由家长审核。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="todayView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">今日任务</p>
+            <h2>先学操作，再拍小任务。</h2>
+          </div>
+        </div>
+        <div id="todayLessonCard"></div>
+      </section>
+
+      <section id="calendarView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">30天课程</p>
+            <h2>四周训练地图</h2>
+          </div>
+          <button id="resetProgressButton" class="ghost-button" type="button">清空本机记录</button>
+        </div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+      </section>
+
+      <section id="lessonView" class="view">
+        <button id="backToCalendarButton" class="back-button" type="button">← 返回课程</button>
+        <article id="lessonShell" class="lesson-shell"></article>
+      </section>
+
+      <section id="basicsView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">参数与构图训练</p>
+            <h2>从第一天开始按具体画面标准实拍。</h2>
+          </div>
+        </div>
+        <div id="basicsList" class="info-grid"></div>
+      </section>
+
+      <section id="thinkingView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Vlog思维训练</p>
+            <h2>让镜头能讲清一个小故事。</h2>
+          </div>
+        </div>
+        <div id="thinkingList" class="info-grid"></div>
+      </section>
+
+      <section id="faqView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">常见问题</p>
+            <h2>社区经验只当提醒，不当官方结论。</h2>
+          </div>
+        </div>
+        <div id="faqList" class="faq-list"></div>
+      </section>
+
+      <section id="generatorView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">拍摄任务生成器</p>
+            <h2>随机生成一个安全的小练习。</h2>
+          </div>
+        </div>
+        <div class="tool-layout">
+          <form id="generatorForm" class="card form-card">
+            <label>今天在哪里拍？
+              <select id="placeSelect">
+                <option>家里书桌旁</option>
+                <option>客厅安全区域</option>
+                <option>阳台内侧</option>
+                <option>小区非道路区域</option>
+                <option>家长确认的室内场地</option>
+              </select>
+            </label>
+            <label>想练什么？
+              <select id="skillSelect">
+                <option>稳定画面</option>
+                <option>横竖屏选择</option>
+                <option>三种角度</option>
+                <option>声音清楚</option>
+                <option>开头中间结尾</option>
+              </select>
+            </label>
+            <button class="primary-button" type="submit">生成任务</button>
+          </form>
+          <article id="taskResult" class="card task-result">
+            <h3>今日随机任务</h3>
+            <p>选择地点和练习重点后生成。任务不会要求上传视频。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="storyboardView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">分镜脚本模板</p>
+            <h2>用 5 格分镜先想清楚。</h2>
+          </div>
+          <button id="saveStoryboardButton" class="secondary-button" type="button">保存分镜</button>
+        </div>
+        <div class="card">
+          <label>Vlog主题
+            <input id="storyTitle" type="text" placeholder="例如：我的书桌小介绍" />
+          </label>
+          <div id="storyboardTable" class="storyboard-table"></div>
+        </div>
+      </section>
+
+      <section id="parentReviewView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">家长复盘表</p>
+            <h2>评价要具体、温和、可改进。</h2>
+          </div>
+          <button id="saveReviewButton" class="secondary-button" type="button">保存复盘</button>
+        </div>
+        <form id="reviewForm" class="card form-card">
+          <label>作品主题<input id="reviewTopic" type="text" placeholder="这次拍了什么？" /></label>
+          <label>孩子最满意的镜头<textarea id="reviewFavorite" rows="3"></textarea></label>
+          <label>家长看到的优点<textarea id="reviewStrength" rows="3"></textarea></label>
+          <label>下次只改进一件事<textarea id="reviewImprove" rows="3"></textarea></label>
+          <label>是否适合公开发布？
+            <select id="reviewPublish">
+              <option>只适合家庭观看</option>
+              <option>家长修改后可小范围分享</option>
+              <option>家长审核后才可公开</option>
+            </select>
+          </label>
+        </form>
+        <div id="reviewArchive" class="archive"></div>
+      </section>
+
+      <section id="safetyView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">安全与隐私提示</p>
+            <h2>不上传、不暴露、不未经同意拍别人。</h2>
+          </div>
+        </div>
+        <div id="safetyList" class="safety-grid"></div>
+      </section>
+
+      <section id="sourcesView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">资料来源页</p>
+            <h2>先整理资料，再重写成儿童课程。</h2>
+          </div>
+        </div>
+        <div id="researchSummary" class="research-summary"></div>
+        <div id="sourcesList" class="sources-list"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
