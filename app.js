@@ -567,9 +567,10 @@ function renderSources() {
     <article class="card">
       <h3>资料整理结果</h3>
       <p><strong>官方资料清单：</strong>${SOURCE_GROUPS.official.map((id) => SOURCE_REGISTRY[id].title).join("；")}。</p>
+      <p><strong>中文创作者/经验来源清单：</strong>${SOURCE_GROUPS.creator.map((id) => SOURCE_REGISTRY[id].title).join("；")}。</p>
       <p><strong>论坛/社区常见问题清单：</strong>${RESEARCH_SUMMARY.communityFaq.join("；")}。</p>
       <p><strong>适合孩子学习的30个训练主题：</strong>${RESEARCH_SUMMARY.themes.join("；")}。</p>
-      <p>每一天课程都对应 Pocket3 操作点、拍摄任务和家长复盘问题；社区信息只标注为“经验建议”，不会写成官方结论。</p>
+      <p>每一天课程都对应 Pocket3 操作点、拍摄任务和家长复盘问题；课程现在中文来源优先，外文创作者链接不再作为主要来源；社区信息只标注为“经验建议”，不会写成官方结论。</p>
     </article>
   `;
   document.querySelector("#sourcesList").innerHTML = Object.entries(SOURCE_REGISTRY).map(([id, source]) => `

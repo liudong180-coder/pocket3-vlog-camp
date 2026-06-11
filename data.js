@@ -1,26 +1,26 @@
 const SOURCE_REGISTRY = {
   djiProduct: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 产品页",
-    url: "https://www.dji.com/osmo-pocket-3",
+    title: "DJI 大疆 Osmo Pocket 3 中文产品页",
+    url: "https://www.dji.com/cn/osmo-pocket-3",
     note: "用于确认 1 英寸传感器、三轴机械云台、2 英寸旋转屏、ActiveTrack 6.0、快速对焦、D-Log M 等核心能力。"
   },
   djiDownloads: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 下载中心",
-    url: "https://www.dji.com/downloads/products/osmo-pocket-3",
+    title: "DJI 大疆 Osmo Pocket 3 相关下载",
+    url: "https://www.dji.com/cn/osmo-pocket-3/downloads",
     note: "用于确认用户手册、固件和软件资料入口。"
   },
   djiManual: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 User Manual",
-    url: "https://dl.djicdn.com/downloads/DJI_Osmo_Pocket_3/UM/20250826/DJI_Osmo_Pocket_3_User_Manual_v1.0_en.pdf",
+    title: "DJI Osmo Pocket 3 用户手册（简体中文 PDF）",
+    url: "https://dl.djicdn.com/downloads/DJI_Osmo_Pocket_3/UM/20231025/DJI_Osmo_Pocket_3_User_Manual_v1.0_chs.pdf",
     note: "用于确认电源、按键、触控屏、云台模式、跟随、自拍、拍摄模式、存储与电池等基础操作。"
   },
   djiBeginner: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 Beginner's Guide",
-    url: "https://repair.dji.com/help/content?customId=en-us03400009024&documentType=artical&lang=en&paperDocType=paper&re=US&spaceId=34",
+    title: "DJI Osmo Pocket 3 新手快速攻略",
+    url: "https://support.dji.com/help/content?customId=zh-cn03400009024&documentType=artical&lang=zh-CN&paperDocType=paper&re=CN&spaceId=34",
     note: "用于确认入门准备、首次使用、激活、基础教程入口。"
   },
   djiVideoTutorials: {
@@ -31,56 +31,56 @@ const SOURCE_REGISTRY = {
   },
   djiAcademy: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 Academy / Tutorials",
-    url: "https://dji.ink/cR2r9Z",
-    note: "DJI 入门指南中提供的更多教程入口；用于补充官方视频学习路径。"
+    title: "B站 DJI大疆创新｜Osmo Pocket 3 使用指南【MAX版】",
+    url: "https://www.bilibili.com/video/BV1Fj411v7yW/",
+    note: "DJI 大疆创新官方中文长视频，用于给家长和孩子快速了解整机能力。"
   },
   djiSupport: {
     type: "官方资料",
-    title: "DJI Osmo Pocket 3 Support / FAQ",
-    url: "https://www.dji.com/support/product/osmo-pocket-3",
+    title: "DJI 大疆 Osmo Pocket 3 技术支持",
+    url: "https://www.dji.com/cn/support/product/osmo-pocket-3",
     note: "用于确认支持问题、配件、兼容性、使用限制等 FAQ 方向。"
   },
   djiLightCut: {
     type: "官方资料",
-    title: "DJI LightCut",
-    url: "https://www.dji.com/lightcut",
+    title: "DJI 畅片 / LightCut 官方剪辑工具",
+    url: "https://www.dji.com/cn/qcut",
     note: "用于确认可用剪辑辅助工具方向；本网站不要求孩子上传个人视频到服务器。"
   },
   creatorCapture: {
-    type: "创作者经验",
-    title: "Capture Guide - DJI Osmo Pocket 3 bobbing fix and walking tips",
-    url: "https://www.captureguide.com/dji-osmo-pocket-3-bobbing-fix/",
-    note: "用于提炼走路拍摄时放慢脚步、减少上下起伏、先实拍测试的经验。"
+    type: "官方资料",
+    title: "B站 DJI大疆服务｜Osmo Pocket 3 云台模式与运镜教学",
+    url: "https://www.bilibili.com/video/BV1yu4y1E7X6/",
+    note: "DJI 大疆服务官方中文视频，用于理解云台模式、运镜和实拍测试。"
   },
   creatorKraft: {
-    type: "创作者经验",
-    title: "KraftGeek - DJI Osmo Pocket 3 Tips and Tricks",
-    url: "https://www.kraftgeek.com/blogs/tips-and-tricks/dji-osmo-pocket-3-tips-and-tricks?srsltid=AfmBOoovAdYBBqjyo6WBNi2CAwkY0PQAmlFczC9AZETMg4iKGm2q91EU",
-    note: "用于提炼新手练习构图、跟踪、收音和剪辑准备的经验建议。"
+    type: "中文创作者经验",
+    title: "B站 华仔拍照用手机｜Pocket 3 的 6 种 Vlog 创意运镜",
+    url: "https://www.bilibili.com/video/BV1PC4y1R7SP/",
+    note: "用于提炼后拉、环绕、低角度跟随等运镜练习思路；页面中只作为经验建议。"
   },
   creatorEditors: {
-    type: "创作者经验",
-    title: "Editors Keys - Best DJI Osmo Pocket 3 Settings for Cinematic Video",
-    url: "https://www.editorskeys.com/blogs/news/best-dji-osmo-pocket-3-settings-for-cinematic-video",
-    note: "用于提炼参数设置属于创作者经验，孩子需要用实际场景测试。"
+    type: "中文创作者经验",
+    title: "B站 刘二而已｜DJI Pocket 3 设置指南（新手入坑必知）",
+    url: "https://www.bilibili.com/video/BV1WN411j7N9/",
+    note: "用于提炼参数设置的实践经验；参数建议不写成官方结论，必须让孩子实拍比较。"
   },
   creatorUlanzi: {
-    type: "创作者经验",
-    title: "Ulanzi - DJI Osmo Pocket 3 Tips",
-    url: "https://www.ulanzi.com/blogs/photography/dji-osmo-pocket-3-tips",
-    note: "用于提炼稳定握持、构图、配件和日常拍摄提醒。"
+    type: "中文创作者经验",
+    title: "B站 影视飓风｜Vlog拍摄技巧大揭秘：拍好你的第一个Vlog",
+    url: "https://www.bilibili.com/video/BV1y441187TB/",
+    note: "用于提炼 Vlog 主题、镜头顺序和故事表达方法；不复制视频文案。"
   },
   communityReddit: {
     type: "社区讨论",
-    title: "Reddit r/osmopocket - Osmo Pocket 3 beginner discussions",
-    url: "https://www.reddit.com/r/osmopocket/",
-    note: "只用于提炼常见问题，不复制帖子原文；页面中标注为经验建议。"
+    title: "大疆社区｜手持稳定器走路防抖经验讨论",
+    url: "https://bbs.dji.com/archiver/?tid-207768.html=",
+    note: "只用于提炼常见问题，不复制原文；页面中标注为经验建议。"
   },
   communityForum: {
     type: "社区讨论",
-    title: "DJI Forum - Osmo Pocket 3 discussions",
-    url: "https://forum.dji.com/",
+    title: "大疆社区 / DJI 论坛｜Osmo Pocket 3 讨论入口",
+    url: "https://bbs.dji.com/",
     note: "只用于提炼常见问题，不复制帖子原文；页面中标注为经验建议。"
   },
   communityBilibili: {
@@ -106,7 +106,7 @@ const SOURCE_GROUPS = {
 
 const TEACHING_VIDEOS = [
   {
-    title: "官方视频教程入口：Osmo Pocket 3 视频教程",
+    title: "中文官方视频教程入口",
     level: "建议第 1-7 天观看",
     sourceType: "官方确认",
     url: SOURCE_REGISTRY.djiVideoTutorials.url,
@@ -116,12 +116,12 @@ const TEACHING_VIDEOS = [
     privacyNote: "只在家庭设备中回看，不自行发布。"
   },
   {
-    title: "首次使用与机身认识",
+    title: "DJI 大疆创新官方使用指南",
     level: "复习用，不作为第 1 天主任务",
     sourceType: "官方确认",
-    url: SOURCE_REGISTRY.djiBeginner.url,
-    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
-    watchTask: "快速看机身、充电、电源、屏幕旋转相关片段。",
+    url: SOURCE_REGISTRY.djiAcademy.url,
+    sourceTitle: SOURCE_REGISTRY.djiAcademy.title,
+    watchTask: "按需观看与机身能力、拍摄模式、跟随和声音相关的片段。",
     practice: "让孩子用自己的话说出：今天真正练的是画面，不是开关机。",
     privacyNote: "不拍设备序列号、家庭地址或窗外定位。"
   },
@@ -129,9 +129,9 @@ const TEACHING_VIDEOS = [
     title: "云台模式与稳定画面",
     level: "建议第 6-12 天观看",
     sourceType: "官方确认 + 实拍测试",
-    url: SOURCE_REGISTRY.djiBeginner.url,
-    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
-    watchTask: "查看云台模式、回中、跟随相关官方说明。",
+    url: SOURCE_REGISTRY.creatorCapture.url,
+    sourceTitle: SOURCE_REGISTRY.creatorCapture.title,
+    watchTask: "查看云台模式、回中、跟随和运镜相关官方中文说明。",
     practice: "同一条路线各拍 8 秒，比较哪一种模式更稳、更适合今天场景。",
     privacyNote: "走动练习只在家长确认的安全区域完成。"
   },
@@ -139,8 +139,8 @@ const TEACHING_VIDEOS = [
     title: "拍摄模式与帧率选择",
     level: "建议第 4、13、24 天观看",
     sourceType: "官方确认 + 创作者经验",
-    url: SOURCE_REGISTRY.djiVideoTutorials.url,
-    sourceTitle: SOURCE_REGISTRY.djiVideoTutorials.title,
+    url: SOURCE_REGISTRY.creatorEditors.url,
+    sourceTitle: SOURCE_REGISTRY.creatorEditors.title,
     watchTask: "了解视频、慢动作、延时等模式的区别，不要求孩子全部使用。",
     practice: "普通动作先用 30fps；快速手部动作可在家长陪同下测试 60fps 是否更清楚。",
     privacyNote: "不要为了测试效果去危险地点或公开场所拍路人。"
@@ -149,8 +149,8 @@ const TEACHING_VIDEOS = [
     title: "人像跟随与人物构图",
     level: "建议第 2、10、20 天观看",
     sourceType: "官方确认 + 需要实拍测试",
-    url: SOURCE_REGISTRY.djiProduct.url,
-    sourceTitle: SOURCE_REGISTRY.djiProduct.title,
+    url: SOURCE_REGISTRY.djiAcademy.url,
+    sourceTitle: SOURCE_REGISTRY.djiAcademy.title,
     watchTask: "了解 ActiveTrack 等人物辅助能力，再回到课程练人物比例。",
     practice: "半身人像头顶留 5%-10%，眼睛靠近上三分线，人物面向处留说话空间。",
     privacyNote: "拍任何人正脸前先征得同意，不同意就只拍手部或背影。"
@@ -159,8 +159,8 @@ const TEACHING_VIDEOS = [
     title: "收音与外接麦克风思路",
     level: "建议第 14、20、26 天观看",
     sourceType: "官方确认 + 创作者经验",
-    url: SOURCE_REGISTRY.djiBeginner.url,
-    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
+    url: SOURCE_REGISTRY.djiAcademy.url,
+    sourceTitle: SOURCE_REGISTRY.djiAcademy.title,
     watchTask: "看与声音、配件或麦克风相关的官方说明。",
     practice: "同一句话在 0.5 米和 1.5 米各拍一次，回放比较清晰度。",
     privacyNote: "评估声音时也要听有没有真实姓名、地址、学校等隐私。"
