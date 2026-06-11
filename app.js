@@ -8,6 +8,7 @@ let currentVideoUrl = "";
 const views = {
   home: document.querySelector("#homeView"),
   today: document.querySelector("#todayView"),
+  adventure: document.querySelector("#adventureView"),
   calendar: document.querySelector("#calendarView"),
   lesson: document.querySelector("#lessonView"),
   basics: document.querySelector("#basicsView"),
@@ -57,6 +58,7 @@ function showView(name) {
   });
   document.querySelector("#tabs").classList.remove("open");
   if (name === "today") renderToday();
+  if (name === "adventure") renderAdventure();
   if (name === "upload") renderVideoReviewArchive();
   if (name === "parentReview") renderReviewArchive();
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -69,10 +71,58 @@ function showToast(message) {
   window.setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
+const ADVENTURE_CHAPTERS = [
+  {
+    week: 1,
+    title: "第一章：找回清楚画面",
+    badge: "画面控制章",
+    role: "画面观察员",
+    story: "训练营收到一份空白影片档案，第一周要把画面拍清楚、拍安全，让观众知道你在拍什么。"
+  },
+  {
+    week: 2,
+    title: "第二章：稳住镜头行动",
+    badge: "稳定镜头章",
+    role: "镜头行动员",
+    story: "影片档案开始移动，第二周要控制走动、平移和人物位置，让镜头动得有理由。"
+  },
+  {
+    week: 3,
+    title: "第三章：拼出故事线索",
+    badge: "故事导演章",
+    role: "故事小导演",
+    story: "画面已经够清楚，现在要把开头、中间、结尾连起来，让家长一看就能复述主题。"
+  },
+  {
+    week: 4,
+    title: "第四章：完成家庭成片",
+    badge: "成片复盘章",
+    role: "家庭成片官",
+    story: "最后一周要筛选、剪短、加重点字幕和复盘，只保留安全、清楚、能表达主题的镜头。"
+  }
+];
+
+function getAdventureSnapshot() {
+  const completedCount = state.completed.length;
+  const today = COURSES.find((course) => course.day === getNextDay()) || COURSES[COURSES.length - 1];
+  const chapter = ADVENTURE_CHAPTERS.find((item) => item.week === today.week) || ADVENTURE_CHAPTERS[0];
+  const role = completedCount >= 23
+    ? "家庭成片官"
+    : completedCount >= 15
+      ? "故事小导演"
+      : completedCount >= 7
+        ? "镜头行动员"
+        : completedCount >= 1
+          ? "画面观察员"
+          : "见习小导演";
+  return { completedCount, today, chapter, role };
+}
+
 function renderHome() {
   const completedCount = state.completed.length;
   const today = COURSES.find((course) => course.day === getNextDay()) || COURSES[COURSES.length - 1];
   const week = WEEK_INFO[today.week];
+  const adventure = getAdventureSnapshot();
   document.querySelector("#todayBadge").textContent = `Day ${today.day}`;
   document.querySelector("#todayTitle").textContent = today.title;
   document.querySelector("#todayGoal").textContent = today.goal;
@@ -85,11 +135,56 @@ function renderHome() {
   document.querySelector("#weekBadges").innerHTML = Object.values(WEEK_INFO)
     .map((item) => `<span class="badge-chip">${item.badge}</span>`)
     .join("");
+  document.querySelector("#storyHookBadge").textContent = `第 ${adventure.today.day} 关`;
+  document.querySelector("#storyHookTitle").textContent = adventure.chapter.title;
+  document.querySelector("#storyHookText").textContent = `今天的剧情线索：用 ${adventure.today.title} 帮影片档案补上一条清楚、安全、能复盘的镜头。`;
 }
 
 function renderToday() {
   const today = COURSES.find((course) => course.day === getNextDay()) || COURSES[COURSES.length - 1];
   document.querySelector("#todayLessonCard").innerHTML = lessonMarkup(today, true);
+}
+
+function renderAdventure() {
+  const { completedCount, today, chapter, role } = getAdventureSnapshot();
+  document.querySelector("#adventureStageBadge").textContent = role;
+  document.querySelector("#adventureStageTitle").textContent = chapter.title;
+  document.querySelector("#adventureStageText").textContent = chapter.story;
+  document.querySelector("#adventureStars").textContent = Array.from({ length: 30 }, (_, index) => (
+    index < completedCount ? "■" : "□"
+  )).join("");
+  document.querySelector("#adventureProgressText").textContent = completedCount === COURSES.length
+    ? "30 个剧情任务已经完成，可以开始重剪一版家庭成片。"
+    : `已点亮 ${completedCount} / 30 个镜头格。下一关：Day ${today.day}。`;
+  document.querySelector("#adventureTodayPrompt").textContent = `任务设定：你要拍一条“${today.title}”线索。先想清楚主体在哪里、画面比例是否合适、有没有隐私，再按今日课程完成拍摄。`;
+  document.querySelector("#adventureTodayRules").innerHTML = [
+    "只完成一个核心镜头目标，不为了好玩增加危险动作。",
+    "拍完先给家长看，确认没有地点、学校、证件、车牌和未同意入镜人物。",
+    "打卡后才点亮今天的镜头格；公开视频必须家长再次审核。"
+  ].map((item) => `<li>${item}</li>`).join("");
+  document.querySelector("#adventureBadges").innerHTML = ADVENTURE_CHAPTERS.map((item) => {
+    const weekCourses = COURSES.filter((course) => course.week === item.week);
+    const done = weekCourses.filter((course) => state.completed.includes(course.day)).length;
+    const status = done === weekCourses.length ? "unlocked" : done > 0 ? "active" : "locked";
+    return `
+      <div class="badge-tile ${status}">
+        <strong>${item.badge}</strong>
+        <span>${done}/${weekCourses.length}</span>
+      </div>
+    `;
+  }).join("");
+  document.querySelector("#adventureChapters").innerHTML = ADVENTURE_CHAPTERS.map((item) => {
+    const weekCourses = COURSES.filter((course) => course.week === item.week);
+    const done = weekCourses.filter((course) => state.completed.includes(course.day)).length;
+    return `
+      <article class="chapter-card ${item.week === today.week ? "current" : ""}">
+        <span class="badge-chip">${item.role}</span>
+        <h3>${item.title}</h3>
+        <p>${item.story}</p>
+        <div class="mini-progress"><span style="width: ${(done / weekCourses.length) * 100}%"></span></div>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderCalendar() {
@@ -599,6 +694,7 @@ function resetProgress() {
 function renderAll() {
   renderHome();
   renderToday();
+  renderAdventure();
   renderCalendar();
   renderBasicsAndThinking();
   renderFaq();
@@ -629,6 +725,10 @@ document.querySelector("#continueButton").addEventListener("click", () => {
 });
 
 document.querySelector("#openTodayButton").addEventListener("click", () => showView("today"));
+document.querySelector("#adventureStartButton").addEventListener("click", () => {
+  renderLesson(getNextDay());
+  showView("lesson");
+});
 
 document.querySelector("#calendarGrid").addEventListener("click", (event) => {
   const card = event.target.closest("[data-day]");

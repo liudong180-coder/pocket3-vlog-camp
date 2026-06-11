@@ -21,6 +21,7 @@
     <nav id="tabs" class="tabs" aria-label="网站导航">
       <button class="tab active" data-view="home">首页</button>
       <button class="tab" data-view="today">今日任务</button>
+      <button class="tab" data-view="adventure">闯关剧情</button>
       <button class="tab" data-view="calendar">30天课程</button>
       <button class="tab" data-view="basics">参数与构图</button>
       <button class="tab" data-view="thinking">Vlog思维</button>
@@ -73,6 +74,16 @@
             <div id="weekBadges" class="badge-row"></div>
           </article>
 
+          <article class="card adventure-card">
+            <div class="card-title-row">
+              <h3>今日剧情</h3>
+              <span id="storyHookBadge" class="badge">第 1 关</span>
+            </div>
+            <h4 id="storyHookTitle"></h4>
+            <p id="storyHookText"></p>
+            <button class="primary-button" data-jump="adventure" type="button">进入闯关剧情</button>
+          </article>
+
           <article class="card warning-card">
             <h3>家长提示</h3>
             <p>拍摄前检查地点、他人肖像、门牌、学校、快递单、车牌和定位信息。任何公开发布都必须先由家长审核。</p>
@@ -88,6 +99,42 @@
           </div>
         </div>
         <div id="todayLessonCard"></div>
+      </section>
+
+      <section id="adventureView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">闯关剧情</p>
+            <h2>小导演接到一份 30 天影像任务。</h2>
+          </div>
+        </div>
+        <div class="adventure-hero card">
+          <div>
+            <span id="adventureStageBadge" class="badge">见习小导演</span>
+            <h3 id="adventureStageTitle"></h3>
+            <p id="adventureStageText"></p>
+            <div class="button-row">
+              <button id="adventureStartButton" class="primary-button" type="button">开始今日剧情任务</button>
+              <button class="secondary-button" data-jump="storyboard" type="button">先写分镜</button>
+            </div>
+          </div>
+          <div class="adventure-meter">
+            <div id="adventureStars" class="adventure-stars"></div>
+            <p id="adventureProgressText"></p>
+          </div>
+        </div>
+        <div class="adventure-grid">
+          <article class="card">
+            <h3>今日剧情任务</h3>
+            <p id="adventureTodayPrompt"></p>
+            <ul id="adventureTodayRules" class="adventure-rule-list"></ul>
+          </article>
+          <article class="card">
+            <h3>本周解锁章</h3>
+            <div id="adventureBadges" class="badge-wall"></div>
+          </article>
+        </div>
+        <div id="adventureChapters" class="chapter-track"></div>
       </section>
 
       <section id="calendarView" class="view">
