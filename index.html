@@ -25,8 +25,10 @@
       <button class="tab" data-view="basics">参数与构图</button>
       <button class="tab" data-view="thinking">Vlog思维</button>
       <button class="tab" data-view="faq">常见问题</button>
+      <button class="tab" data-view="videos">教学视频</button>
       <button class="tab" data-view="generator">任务生成器</button>
       <button class="tab" data-view="storyboard">分镜模板</button>
+      <button class="tab" data-view="upload">视频评估</button>
       <button class="tab" data-view="parentReview">家长复盘</button>
       <button class="tab" data-view="safety">安全隐私</button>
       <button class="tab" data-view="sources">资料来源</button>
@@ -134,6 +136,20 @@
         <div id="faqList" class="faq-list"></div>
       </section>
 
+      <section id="videosView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">教学视频</p>
+            <h2>先看官方示范，再完成一个小练习。</h2>
+          </div>
+        </div>
+        <div class="card notice-card">
+          <h3>观看规则</h3>
+          <p>建议家长陪同打开外部视频。看完只做本网站里的小练习，不要求孩子把视频发到公开平台。</p>
+        </div>
+        <div id="videoList" class="video-grid"></div>
+      </section>
+
       <section id="generatorView" class="view">
         <div class="section-head">
           <div>
@@ -184,6 +200,74 @@
           </label>
           <div id="storyboardTable" class="storyboard-table"></div>
         </div>
+      </section>
+
+      <section id="uploadView" class="view">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">本地视频评估</p>
+            <h2>选择孩子拍好的视频，本地预览并做家长评价。</h2>
+          </div>
+        </div>
+        <div class="card local-only-card">
+          <h3>重要说明</h3>
+          <p>这里的“上传”只是选择本机文件给浏览器预览。视频不会发送到服务器、不会保存到 GitHub，也不会被网站长期保存；网页只记录家长填写的文字评价和分数。</p>
+        </div>
+        <div class="upload-layout">
+          <article class="card upload-card">
+            <label>选择本机视频文件
+              <input id="videoFileInput" type="file" accept="video/*" />
+            </label>
+            <video id="localVideoPreview" class="local-video" controls playsinline></video>
+            <div id="videoMeta" class="video-meta empty-note">还没有选择视频。</div>
+          </article>
+          <form id="videoReviewForm" class="card form-card">
+            <label>作品主题<input id="videoReviewTitle" type="text" placeholder="例如：我的书桌 30 秒介绍" /></label>
+            <label>对应课程
+              <select id="videoReviewDay"></select>
+            </label>
+            <div class="rating-grid">
+              <label>画面稳定
+                <select id="videoStability">
+                  <option>很好：主体稳定，开头结尾有停顿</option>
+                  <option>可以：偶尔晃动，但能看清</option>
+                  <option>需重拍：明显上下晃或倾斜</option>
+                </select>
+              </label>
+              <label>构图与人像比例
+                <select id="videoComposition">
+                  <option>很好：主体位置清楚，头顶和边缘留白合适</option>
+                  <option>可以：主体清楚，比例还可调整</option>
+                  <option>需重拍：主体太小、太满或贴边</option>
+                </select>
+              </label>
+              <label>声音清楚
+                <select id="videoAudio">
+                  <option>很好：人声清楚，环境声不过大</option>
+                  <option>可以：能听懂，但有杂音</option>
+                  <option>需重拍：听不清主题内容</option>
+                </select>
+              </label>
+              <label>故事完整
+                <select id="videoStory">
+                  <option>很好：有开头、中间、结尾</option>
+                  <option>可以：内容完整，但节奏可更清楚</option>
+                  <option>需重拍：看不出主题或缺少结尾</option>
+                </select>
+              </label>
+            </div>
+            <fieldset class="privacy-fieldset">
+              <legend>发布前隐私检查</legend>
+              <label class="check-row"><input class="video-privacy-check" type="checkbox" />没有学校、门牌、车牌、快递单、证件或定位线索</label>
+              <label class="check-row"><input class="video-privacy-check" type="checkbox" />入镜人物都同意被拍摄</label>
+              <label class="check-row"><input class="video-privacy-check" type="checkbox" />孩子不会自行公开发布，必须家长审核后再发布</label>
+            </fieldset>
+            <label>改进建议<textarea id="videoImprove" rows="4" placeholder="例如：下一次把人物眼睛放在上三分线，开头停 2 秒再说话。"></textarea></label>
+            <button id="saveVideoReviewButton" class="primary-button" type="submit">保存本地评估</button>
+          </form>
+        </div>
+        <div id="videoReviewResult" class="review-result"></div>
+        <div id="videoReviewArchive" class="archive"></div>
       </section>
 
       <section id="parentReviewView" class="view">

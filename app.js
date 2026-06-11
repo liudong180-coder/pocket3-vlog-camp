@@ -2,6 +2,8 @@ const storeKey = "pocket3-camp-v2";
 
 let state = loadState();
 let currentLessonDay = state.currentDay || getNextDay();
+let currentVideoMeta = null;
+let currentVideoUrl = "";
 
 const views = {
   home: document.querySelector("#homeView"),
@@ -11,8 +13,10 @@ const views = {
   basics: document.querySelector("#basicsView"),
   thinking: document.querySelector("#thinkingView"),
   faq: document.querySelector("#faqView"),
+  videos: document.querySelector("#videosView"),
   generator: document.querySelector("#generatorView"),
   storyboard: document.querySelector("#storyboardView"),
+  upload: document.querySelector("#uploadView"),
   parentReview: document.querySelector("#parentReviewView"),
   safety: document.querySelector("#safetyView"),
   sources: document.querySelector("#sourcesView")
@@ -25,6 +29,7 @@ function loadState() {
     checkins: [],
     storyboard: {},
     reviews: [],
+    videoReviews: [],
     generatedTasks: [],
     currentDay: 1
   };
@@ -52,6 +57,7 @@ function showView(name) {
   });
   document.querySelector("#tabs").classList.remove("open");
   if (name === "today") renderToday();
+  if (name === "upload") renderVideoReviewArchive();
   if (name === "parentReview") renderReviewArchive();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -247,6 +253,210 @@ function renderFaq() {
   `).join("");
 }
 
+function renderVideos() {
+  document.querySelector("#videoList").innerHTML = TEACHING_VIDEOS.map((item, index) => `
+    <article class="card video-card">
+      <div class="video-index">${index + 1}</div>
+      <span class="badge">${item.sourceType}</span>
+      <h3>${item.title}</h3>
+      <p class="video-level">${item.level}</p>
+      <p><strong>观看任务：</strong>${item.watchTask}</p>
+      <p><strong>看完练习：</strong>${item.practice}</p>
+      <p><strong>安全提醒：</strong>${item.privacyNote}</p>
+      <p class="source-line"><strong>资料来源：</strong>${item.sourceTitle}</p>
+      <a class="video-link" href="${item.url}" target="_blank" rel="noreferrer">家长陪同打开官方视频</a>
+    </article>
+  `).join("");
+}
+
+function populateVideoDaySelect() {
+  const select = document.querySelector("#videoReviewDay");
+  if (!select) return;
+  select.innerHTML = COURSES.map((course) => `
+    <option value="${course.day}">Day ${course.day}：${course.title}</option>
+  `).join("");
+  select.value = String(getNextDay());
+}
+
+function handleVideoFileChange(event) {
+  const file = event.target.files?.[0];
+  const preview = document.querySelector("#localVideoPreview");
+  if (currentVideoUrl) URL.revokeObjectURL(currentVideoUrl);
+  currentVideoUrl = "";
+  currentVideoMeta = null;
+  if (!file) {
+    preview.removeAttribute("src");
+    preview.load();
+    document.querySelector("#videoMeta").textContent = "还没有选择视频。";
+    return;
+  }
+  currentVideoUrl = URL.createObjectURL(file);
+  currentVideoMeta = {
+    name: file.name,
+    size: file.size,
+    type: file.type || "未知格式",
+    lastModified: new Date(file.lastModified).toLocaleString("zh-CN")
+  };
+  preview.src = currentVideoUrl;
+  preview.load();
+  document.querySelector("#videoMeta").innerHTML = videoMetaMarkup(currentVideoMeta, true);
+  preview.onloadedmetadata = () => {
+    currentVideoMeta = {
+      ...currentVideoMeta,
+      duration: preview.duration,
+      width: preview.videoWidth,
+      height: preview.videoHeight
+    };
+    document.querySelector("#videoMeta").innerHTML = videoMetaMarkup(currentVideoMeta, true);
+  };
+}
+
+function videoMetaMarkup(meta, includeFileName = false) {
+  if (!meta) return "还没有选择视频。";
+  const resolution = meta.width && meta.height ? `${meta.width} × ${meta.height}` : "读取中";
+  const duration = Number.isFinite(meta.duration) ? formatDuration(meta.duration) : "读取中";
+  const longNote = Number.isFinite(meta.duration) && meta.duration > 75
+    ? `<p class="risk-note">建议先评估 1 分钟以内片段，太长的视频可以先剪短再复盘。</p>`
+    : "";
+  return `
+    <div class="meta-grid">
+      ${includeFileName ? `<p><strong>当前文件：</strong>${escapeHtml(meta.name)}</p>` : ""}
+      <p><strong>时长：</strong>${duration}</p>
+      <p><strong>分辨率：</strong>${resolution}</p>
+      <p><strong>大小：</strong>${formatFileSize(meta.size)}</p>
+      <p><strong>格式：</strong>${escapeHtml(meta.type)}</p>
+    </div>
+    <p class="empty-note">文件名只在当前页面显示，不写入成长档案。</p>
+    ${longNote}
+  `;
+}
+
+function saveVideoReview(event) {
+  event.preventDefault();
+  if (!currentVideoMeta) {
+    showToast("请先选择一个本机视频用于预览。");
+    return;
+  }
+  const privacyChecks = Array.from(document.querySelectorAll(".video-privacy-check"));
+  if (!privacyChecks.every((item) => item.checked)) {
+    showToast("请先完成全部隐私检查。");
+    return;
+  }
+  const title = document.querySelector("#videoReviewTitle").value.trim();
+  if (!title) {
+    showToast("请填写作品主题。");
+    return;
+  }
+  const day = Number(document.querySelector("#videoReviewDay").value);
+  const course = COURSES.find((item) => item.day === day);
+  const ratings = {
+    stability: document.querySelector("#videoStability").value,
+    composition: document.querySelector("#videoComposition").value,
+    audio: document.querySelector("#videoAudio").value,
+    story: document.querySelector("#videoStory").value
+  };
+  const score = Object.values(ratings).reduce((sum, value) => sum + scoreForRating(value), 0);
+  const review = {
+    id: Date.now(),
+    title,
+    day,
+    courseTitle: course?.title || "",
+    score,
+    ratings,
+    suggestions: buildVideoSuggestions(ratings),
+    improve: document.querySelector("#videoImprove").value.trim(),
+    meta: {
+      duration: currentVideoMeta.duration || null,
+      width: currentVideoMeta.width || null,
+      height: currentVideoMeta.height || null,
+      size: currentVideoMeta.size || null,
+      type: currentVideoMeta.type || "未知格式"
+    },
+    time: new Date().toLocaleString("zh-CN")
+  };
+  state.videoReviews.unshift(review);
+  state.videoReviews = state.videoReviews.slice(0, 20);
+  saveState();
+  renderVideoReviewResult(review);
+  renderVideoReviewArchive();
+  showToast("评估已保存到本机浏览器。");
+}
+
+function scoreForRating(value) {
+  if (value.startsWith("很好")) return 25;
+  if (value.startsWith("可以")) return 18;
+  return 10;
+}
+
+function buildVideoSuggestions(ratings) {
+  const suggestions = [];
+  if (ratings.stability.startsWith("需重拍")) suggestions.push("重拍时开头和结尾各停 2 秒，走动镜头先放慢脚步。");
+  if (ratings.composition.startsWith("需重拍")) suggestions.push("把主体放到三分线附近，人物头顶留 5%-10% 空间。");
+  if (ratings.audio.startsWith("需重拍")) suggestions.push("靠近说话者，先关掉电视、风扇等环境噪声再录。");
+  if (ratings.story.startsWith("需重拍")) suggestions.push("先写一句话主题，再补一个结尾感受镜头。");
+  if (!suggestions.length) suggestions.push("下一次只提高一个点：更清楚的开头、更稳的停顿，或更干净的背景。");
+  return suggestions;
+}
+
+function renderVideoReviewResult(review) {
+  document.querySelector("#videoReviewResult").innerHTML = `
+    <article class="card score-card">
+      <span class="badge">本地评估结果</span>
+      <h3>${escapeHtml(review.title)}：${review.score}/100</h3>
+      <p>这不是自动识别视频内容的 AI 评分，而是根据家长选择的稳定、构图、声音和故事四项生成的复盘建议。</p>
+      <ul>${review.suggestions.map((item) => `<li>${item}</li>`).join("")}</ul>
+      <p><strong>发布提醒：</strong>公开视频前必须再次由家长审核画面、声音、字幕和封面。</p>
+    </article>
+  `;
+}
+
+function renderVideoReviewArchive() {
+  const archive = document.querySelector("#videoReviewArchive");
+  if (!archive) return;
+  archive.innerHTML = state.videoReviews.length
+    ? state.videoReviews.map((item) => `
+      <article class="card saved-item">
+        <div class="card-title-row">
+          <h3>${escapeHtml(item.title)}</h3>
+          <span class="badge">${item.score}/100</span>
+        </div>
+        <p><strong>对应课程：</strong>Day ${item.day} ${escapeHtml(item.courseTitle)}</p>
+        <p><strong>视频信息：</strong>${formatDuration(item.meta.duration)}，${item.meta.width && item.meta.height ? `${item.meta.width} × ${item.meta.height}` : "分辨率未记录"}，${formatFileSize(item.meta.size)}</p>
+        <p><strong>改进建议：</strong>${escapeHtml(item.improve || item.suggestions.join(" "))}</p>
+        <p class="empty-note">保存时间：${item.time}。未保存视频文件和原始文件名。</p>
+      </article>
+    `).join("")
+    : "<p class=\"empty-note\">还没有保存视频评估。选择本机视频后，可以在这里生成成长档案。</p>";
+}
+
+function formatFileSize(bytes) {
+  if (!Number.isFinite(bytes)) return "未记录";
+  const units = ["B", "KB", "MB", "GB"];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+  return `${value.toFixed(unit === 0 ? 0 : 1)} ${units[unit]}`;
+}
+
+function formatDuration(seconds) {
+  if (!Number.isFinite(seconds)) return "未记录";
+  const minutes = Math.floor(seconds / 60);
+  const rest = Math.round(seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${rest}`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function renderSafety() {
   document.querySelector("#safetyList").innerHTML = SAFETY_ITEMS.map(([title, body], index) => `
     <article class="card safety-card">
@@ -392,10 +602,13 @@ function renderAll() {
   renderCalendar();
   renderBasicsAndThinking();
   renderFaq();
+  renderVideos();
+  populateVideoDaySelect();
   renderSafety();
   renderSources();
   renderStoryboard();
   renderReviewArchive();
+  renderVideoReviewArchive();
 }
 
 document.querySelectorAll(".tab").forEach((tab) => {
@@ -439,6 +652,8 @@ document.body.addEventListener("click", (event) => {
 document.querySelector("#backToCalendarButton").addEventListener("click", () => showView("calendar"));
 document.querySelector("#generatorForm").addEventListener("submit", generateTask);
 document.querySelector("#saveStoryboardButton").addEventListener("click", saveStoryboard);
+document.querySelector("#videoFileInput").addEventListener("change", handleVideoFileChange);
+document.querySelector("#videoReviewForm").addEventListener("submit", saveVideoReview);
 document.querySelector("#saveReviewButton").addEventListener("click", saveReview);
 document.querySelector("#resetProgressButton").addEventListener("click", resetProgress);
 

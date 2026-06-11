@@ -23,6 +23,18 @@ const SOURCE_REGISTRY = {
     url: "https://repair.dji.com/help/content?customId=en-us03400009024&documentType=artical&lang=en&paperDocType=paper&re=US&spaceId=34",
     note: "用于确认入门准备、首次使用、激活、基础教程入口。"
   },
+  djiVideoTutorials: {
+    type: "官方资料",
+    title: "DJI Osmo Pocket 3 视频教程",
+    url: "https://www.dji.com/cn/osmo-pocket-3/video",
+    note: "用于确认 DJI 官方提供 Osmo Pocket 3 教学视频入口；孩子观看外部视频时建议家长陪同。"
+  },
+  djiAcademy: {
+    type: "官方资料",
+    title: "DJI Osmo Pocket 3 Academy / Tutorials",
+    url: "https://dji.ink/cR2r9Z",
+    note: "DJI 入门指南中提供的更多教程入口；用于补充官方视频学习路径。"
+  },
   djiSupport: {
     type: "官方资料",
     title: "DJI Osmo Pocket 3 Support / FAQ",
@@ -87,10 +99,83 @@ const WEEK_INFO = {
 };
 
 const SOURCE_GROUPS = {
-  official: ["djiProduct", "djiDownloads", "djiManual", "djiBeginner", "djiSupport", "djiLightCut"],
+  official: ["djiProduct", "djiDownloads", "djiManual", "djiBeginner", "djiVideoTutorials", "djiAcademy", "djiSupport", "djiLightCut"],
   creator: ["creatorCapture", "creatorKraft", "creatorEditors", "creatorUlanzi"],
   community: ["communityReddit", "communityForum", "communityBilibili"]
 };
+
+const TEACHING_VIDEOS = [
+  {
+    title: "官方视频教程入口：Osmo Pocket 3 视频教程",
+    level: "建议第 1-7 天观看",
+    sourceType: "官方确认",
+    url: SOURCE_REGISTRY.djiVideoTutorials.url,
+    sourceTitle: SOURCE_REGISTRY.djiVideoTutorials.title,
+    watchTask: "家长陪同打开后，只看和当天任务相关的 3-5 分钟内容。",
+    practice: "看完后立刻拍 1 条 10-20 秒练习，不追求一次成功。",
+    privacyNote: "只在家庭设备中回看，不自行发布。"
+  },
+  {
+    title: "首次使用与机身认识",
+    level: "复习用，不作为第 1 天主任务",
+    sourceType: "官方确认",
+    url: SOURCE_REGISTRY.djiBeginner.url,
+    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
+    watchTask: "快速看机身、充电、电源、屏幕旋转相关片段。",
+    practice: "让孩子用自己的话说出：今天真正练的是画面，不是开关机。",
+    privacyNote: "不拍设备序列号、家庭地址或窗外定位。"
+  },
+  {
+    title: "云台模式与稳定画面",
+    level: "建议第 6-12 天观看",
+    sourceType: "官方确认 + 实拍测试",
+    url: SOURCE_REGISTRY.djiBeginner.url,
+    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
+    watchTask: "查看云台模式、回中、跟随相关官方说明。",
+    practice: "同一条路线各拍 8 秒，比较哪一种模式更稳、更适合今天场景。",
+    privacyNote: "走动练习只在家长确认的安全区域完成。"
+  },
+  {
+    title: "拍摄模式与帧率选择",
+    level: "建议第 4、13、24 天观看",
+    sourceType: "官方确认 + 创作者经验",
+    url: SOURCE_REGISTRY.djiVideoTutorials.url,
+    sourceTitle: SOURCE_REGISTRY.djiVideoTutorials.title,
+    watchTask: "了解视频、慢动作、延时等模式的区别，不要求孩子全部使用。",
+    practice: "普通动作先用 30fps；快速手部动作可在家长陪同下测试 60fps 是否更清楚。",
+    privacyNote: "不要为了测试效果去危险地点或公开场所拍路人。"
+  },
+  {
+    title: "人像跟随与人物构图",
+    level: "建议第 2、10、20 天观看",
+    sourceType: "官方确认 + 需要实拍测试",
+    url: SOURCE_REGISTRY.djiProduct.url,
+    sourceTitle: SOURCE_REGISTRY.djiProduct.title,
+    watchTask: "了解 ActiveTrack 等人物辅助能力，再回到课程练人物比例。",
+    practice: "半身人像头顶留 5%-10%，眼睛靠近上三分线，人物面向处留说话空间。",
+    privacyNote: "拍任何人正脸前先征得同意，不同意就只拍手部或背影。"
+  },
+  {
+    title: "收音与外接麦克风思路",
+    level: "建议第 14、20、26 天观看",
+    sourceType: "官方确认 + 创作者经验",
+    url: SOURCE_REGISTRY.djiBeginner.url,
+    sourceTitle: SOURCE_REGISTRY.djiBeginner.title,
+    watchTask: "看与声音、配件或麦克风相关的官方说明。",
+    practice: "同一句话在 0.5 米和 1.5 米各拍一次，回放比较清晰度。",
+    privacyNote: "评估声音时也要听有没有真实姓名、地址、学校等隐私。"
+  },
+  {
+    title: "剪辑辅助与 LightCut",
+    level: "建议第 23-30 天观看",
+    sourceType: "官方确认",
+    url: SOURCE_REGISTRY.djiLightCut.url,
+    sourceTitle: SOURCE_REGISTRY.djiLightCut.title,
+    watchTask: "了解剪辑辅助工具能做什么，但不把家庭视频上传到本网站。",
+    practice: "先选 5 个最清楚镜头，再决定保留、删除和加字幕。",
+    privacyNote: "公开分享前必须由家长检查画面、字幕、声音和封面。"
+  }
+];
 
 const FAQ_ITEMS = [
   {
@@ -802,7 +887,7 @@ const ADVANCED_COURSES = [
 
 
 const SAFETY_ITEMS = [
-  ["不上传个人视频", "本网站没有上传入口，不保存视频文件，只保存本机浏览器里的学习文字记录。"],
+  ["视频只做本地预览", "视频评估页的文件选择只在当前浏览器预览，不把视频传到服务器、GitHub 或公开平台；网站只保存家长填写的文字评价。"],
   ["家长审核后再发布", "朋友圈、短视频平台、班级群公开分享前，都必须由家长检查内容、字幕、声音和背景。"],
   ["不暴露地点", "不要拍门牌、学校班级、快递单、车牌、证件、窗外定位标志。"],
   ["尊重他人肖像", "拍到同学、邻居、路人或家人正脸前要先征得同意。不同意就不拍正脸。"],
